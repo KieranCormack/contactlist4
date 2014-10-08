@@ -5,16 +5,17 @@ function deleteContact(id, e) {
   $.post("contacts/"+ id);
 };
 
-$(function() {
+function displayContacts(contact){
+      var row = $('<tr>').appendTo('#table');
+      $('<td>').text(contact.firstname).appendTo(row);
+      $('<td>').text(contact.lastname).appendTo(row);
+      $('<td>').text(contact.email).appendTo(row);
+      $('<td>').text(contact.phonenumber).appendTo(row);
+      $('<td>').text(contact.address).appendTo(row);
+      $("<td><button onClick='deleteContact(" + contact.id + ", this)'>delete</button>").appendTo(row);
+    };
 
-$("#add-div").on('click', function(){
-  $("#new-contact").fadeToggle("fast", "linear");
-  $(this).hide();
-});
-$("#add_contact").on('click', function(){
-  $("#add-div").fadeToggle("fast", "linear");
-  $('#new-contact').hide();
-});
+$(function() {
 
 contactTable();
 addContact();
@@ -24,13 +25,7 @@ function contactTable(){
   $('#table').empty();
   $.getJSON('/contacts', function(result) {
     $.each(result, function(index, contact) {
-      var row = $('<tr>').appendTo('#table');
-      $('<td>').text(contact.firstname).appendTo(row);
-      $('<td>').text(contact.lastname).appendTo(row);
-      $('<td>').text(contact.email).appendTo(row);
-      $('<td>').text(contact.phonenumber).appendTo(row);
-      $('<td>').text(contact.address).appendTo(row);
-      $("<td><button onClick='deleteContact(" + contact.id + ", this)'>delete</button>").appendTo(row);
+    displayContacts(contact);
     });
   });
 };
@@ -54,19 +49,25 @@ function searchContact(){
     var id = $("#id").val();
     $.getJSON('/contacts/find/' + id, function(contact) {
       console.log(contact);
-        var row = $('<tr>').appendTo('#table');
-        $('<td>').text(contact.firstname).appendTo(row);
-        $('<td>').text(contact.lastname).appendTo(row);
-        $('<td>').text(contact.email).appendTo(row);
-        $('<td>').text(contact.phonenumber).appendTo(row);
-        $('<td>').text(contact.address).appendTo(row);
-
-
+      displayContacts();
     });
   
   });
 
 };
+
+$("#add-div").on('click', function(){
+  $("#new-contact").fadeToggle("fast", "linear");
+  $(this).hide();
+});
+$("#add_contact").on('click', function(){
+  $("#add-div").fadeToggle("fast", "linear");
+  $('#new-contact').hide();
+});
+$("#close-window").on('click', function(){
+  $("#new-contact").fadeToggle("fast", "linear");
+  $('#new-contact').hide();
+});
 
 
 });
