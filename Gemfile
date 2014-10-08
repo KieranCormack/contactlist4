@@ -11,8 +11,12 @@ gem 'sinatra-activerecord'
 gem 'puma'
 gem 'tux'
 
+gem 'json'
+
 group :development, :test do
   gem 'pry'
   gem 'shotgun'
   gem 'sqlite3'
+  gem 'factory_girl'
+  gem 'faker'
 end
